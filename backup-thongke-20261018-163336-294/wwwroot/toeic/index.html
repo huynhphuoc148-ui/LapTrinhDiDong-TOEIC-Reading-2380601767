@@ -1,0 +1,632 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>TOEIC Classroom · Giảng viên</title>
+    <style>
+      :root {
+        font:
+          15px system-ui,
+          sans-serif;
+        color: #172b4d;
+        background: #f5f7fc;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+      }
+      header {
+        background: #1048b8;
+        color: white;
+        padding: 22px max(24px, calc((100vw - 1160px) / 2));
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      header strong {
+        font-size: 22px;
+      }
+      small {
+        display: block;
+        opacity: 0.8;
+        margin-top: 5px;
+      }
+      main {
+        max-width: 1160px;
+        margin: 28px auto;
+        padding: 0 20px;
+      }
+      section {
+        background: white;
+        border: 1px solid #e4e9f2;
+        border-radius: 12px;
+        padding: 24px;
+        margin-bottom: 20px;
+      }
+      h1 {
+        margin-top: 0;
+        font-size: 25px;
+      }
+      h2 {
+        font-size: 20px;
+        margin-top: 0;
+      }
+      input,
+      select,
+      textarea,
+      button {
+        font: inherit;
+        border: 1px solid #d0d5dd;
+        border-radius: 7px;
+        padding: 10px;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        background: white;
+      }
+      textarea {
+        min-height: 180px;
+        font-family: monospace;
+        font-size: 13px;
+      }
+      button {
+        background: #155eef;
+        color: white;
+        border-color: #155eef;
+        cursor: pointer;
+      }
+      button.secondary {
+        color: #155eef;
+        background: #eef4ff;
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: wait;
+      }
+      label {
+        display: block;
+        margin: 12px 0 6px;
+        font-weight: 600;
+      }
+      .row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 18px;
+      }
+      .hint {
+        color: #667085;
+        font-size: 13px;
+        line-height: 1.6;
+      }
+      .actions {
+        display: flex;
+        gap: 8px;
+        flex-wrap: wrap;
+        margin-top: 15px;
+      }
+      .card {
+        padding: 15px 0;
+        border-top: 1px solid #e4e9f2;
+      }
+      .card strong {
+        font-size: 16px;
+      }
+      .pill {
+        display: inline-block;
+        border-radius: 5px;
+        padding: 4px 8px;
+        font-size: 12px;
+        background: #eaf0ff;
+        color: #155eef;
+        margin: 6px 4px 6px 0;
+      }
+      #message {
+        position: sticky;
+        top: 0;
+        z-index: 2;
+        white-space: pre-wrap;
+      }
+      #message:not(:empty) {
+        padding: 15px;
+        background: #fff1d6;
+        color: #664100;
+        border: 1px solid #eac57b;
+        border-radius: 8px;
+        margin-bottom: 15px;
+      }
+      pre {
+        white-space: pre-wrap;
+        overflow-wrap: anywhere;
+      }
+      details {
+        margin-top: 12px;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      td,
+      th {
+        text-align: left;
+        padding: 10px;
+        border-bottom: 1px solid #e4e9f2;
+      }
+      .scroll {
+        overflow: auto;
+      }
+      #users {
+        max-height: 220px;
+        overflow: auto;
+        border: 1px solid #e4e9f2;
+        padding: 8px;
+      }
+      #users label {
+        font-weight: 400;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin: 6px;
+      }
+      #users input {
+        width: auto;
+      }
+      #login {
+        max-width: 480px;
+        margin: 40px auto;
+      }
+      .hidden {
+        display: none !important;
+      }
+      @media (max-width: 700px) {
+        .row {
+          grid-template-columns: 1fr;
+        }
+        section {
+          padding: 18px;
+        }
+        header strong {
+          font-size: 17px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <strong>TOEIC CLASSROOM</strong
+        ><small>Đề Reading · Ca thi · Kết quả</small>
+      </div>
+      <button id="logout" class="hidden">Đăng xuất</button>
+    </header>
+    <main>
+      <div id="message" role="status"></div>
+      <section id="login">
+        <h1>Đăng nhập giảng viên</h1>
+        <p class="hint">
+          Dùng tài khoản Host có quyền “Quản lý đề và ca thi TOEIC”. Tài khoản
+          sinh viên dùng app Flutter.
+        </p>
+        <form id="loginForm">
+          <label>Tên tài khoản</label
+          ><input id="username" autocomplete="username" required /><label
+            >Mật khẩu</label
+          ><input
+            id="password"
+            type="password"
+            autocomplete="current-password"
+            required
+          />
+          <div class="actions"><button>Đăng nhập</button></div>
+        </form>
+      </section>
+      <div id="workspace" class="hidden">
+        <h1>Quản lý thi TOEIC Reading</h1>
+        <p class="hint">
+          Luồng dữ liệu thật dùng SQL Server. Trang này bổ sung chức năng để
+          chạy thử; chưa phải bản chuyển đổi đầy đủ thiết kế Stitch.
+        </p>
+        <div class="row">
+          <section>
+            <h2>1. Chuẩn bị đề thi</h2>
+            <p class="hint">
+              Bản này nhận JSON gồm 100 câu, 75 phút. Chỉnh nội dung trước khi
+              lưu. Dữ liệu mẫu chỉ để kiểm tra hệ thống, không phải đề Reading
+              v10. Import Word có ảnh sẽ được bổ sung riêng.
+            </p>
+            <div class="actions">
+              <button class="secondary" id="sample">
+                Nạp mẫu kiểm thử 100 câu</button
+              ><button class="secondary" id="previewButton">Xem trước</button>
+            </div>
+            <label>JSON đề thi</label
+            ><textarea
+              id="examJson"
+              spellcheck="false"
+              placeholder='{"title":"Reading Test","blocks":[]}'
+            ></textarea>
+            <div class="actions">
+              <button id="createExam">Kiểm tra và lưu bản nháp</button>
+            </div>
+            <details>
+              <summary>Nội dung xem trước</summary>
+              <div id="preview"></div>
+            </details>
+          </section>
+          <section>
+            <h2>Đề đã lưu</h2>
+            <button class="secondary" id="refresh">Tải lại dữ liệu</button>
+            <div id="exams"></div>
+          </section>
+        </div>
+        <section>
+          <h2>2. Mở ca thi</h2>
+          <p class="hint">
+            Thời gian nhập theo múi giờ máy tính; gửi server theo UTC. Tạo ca
+            xong sinh viên được chỉ định sẽ thấy lịch. Để trống giờ công bố điểm
+            nghĩa là chưa công bố.
+          </p>
+          <form id="sessionForm">
+            <div class="row">
+              <div>
+                <label>Tên ca thi</label
+                ><input
+                  id="sessionName"
+                  maxlength="200"
+                  required
+                  placeholder="Reading · Ca sáng lớp ..."
+                /><label>Đề đã xuất bản</label
+                ><select id="version" required></select
+                ><label>Ca</label
+                ><select id="shift">
+                  <option value="Morning">Sáng</option>
+                  <option value="Afternoon">Chiều</option>
+                  <option value="Evening">Tối</option>
+                  <option value="Other">Khác</option></select
+                ><label>Tài khoản được dự thi</label>
+                <div id="users"></div>
+                <p class="hint">
+                  Tạo tài khoản sinh viên ở
+                  <a href="/Users" target="_blank">trang Users của ABP</a>, với
+                  tài khoản Host. Không cấp quyền quản lý cho sinh viên.
+                </p>
+              </div>
+              <div>
+                <label>Bắt đầu</label
+                ><input id="starts" type="datetime-local" required /><label
+                  >Hạn vào thi</label
+                ><input id="entry" type="datetime-local" required /><label
+                  >Kết thúc ca</label
+                ><input id="ends" type="datetime-local" required /><label
+                  >Công bố điểm từ</label
+                ><input id="release" type="datetime-local" />
+                <p class="hint">
+                  Thời hạn mỗi bài = thời điểm sớm hơn giữa “bắt đầu làm + 75
+                  phút” và “kết thúc ca”. Sinh viên được nộp dù chưa chọn đáp án
+                  nào.
+                </p>
+              </div>
+            </div>
+            <div class="actions"><button>Tạo và mở lịch ca thi</button></div>
+          </form>
+        </section>
+        <section>
+          <h2>3. Lịch thi và thống kê</h2>
+          <div id="sessions"></div>
+        </section>
+        <section id="reportSection" class="hidden">
+          <h2>Kết quả ca thi</h2>
+          <div id="report"></div>
+        </section>
+      </div>
+    </main>
+    <script>
+      "use strict";
+      let token = null;
+      const $ = (id) => document.getElementById(id);
+      const text = (tag, value, cls) => {
+        const e = document.createElement(tag);
+        e.textContent = value;
+        if (cls) e.className = cls;
+        return e;
+      };
+      function tell(message) {
+        $("message").textContent = message;
+      }
+      async function api(path, method = "GET", body) {
+        const response = await fetch(path, {
+          method,
+          headers: {
+            "Content-Type": "application/json",
+            ...(token ? { Authorization: "Bearer " + token } : {}),
+          },
+          credentials: "omit",
+          body: body === undefined ? undefined : JSON.stringify(body),
+        });
+        let data;
+        try {
+          data = await response.json();
+        } catch {
+          throw Error(
+            "Backend không trả JSON. Kiểm tra địa chỉ và log chạy server.",
+          );
+        }
+        if (!response.ok || data.success === false)
+          throw Error(
+            data.message ||
+              data.error?.message ||
+              "Lỗi HTTP " + response.status,
+          );
+        return data.__abp ? data.result : data;
+      }
+      async function run(action) {
+        try {
+          tell("");
+          await action();
+        } catch (e) {
+          tell(e.message || String(e));
+        }
+      }
+      function date(v) {
+        return v ? new Date(v).toLocaleString("vi-VN") : "Chưa công bố";
+      }
+      function local(d) {
+        const x = new Date(d.getTime() - d.getTimezoneOffset() * 60000);
+        return x.toISOString().slice(0, 16);
+      }
+      $("loginForm").onsubmit = (e) => {
+        e.preventDefault();
+        run(async () => {
+          const result = await api("/api/TokenAuth/Authenticate", "POST", {
+            userNameOrEmailAddress: $("username").value.trim(),
+            password: $("password").value,
+            rememberClient: false,
+          });
+          token = result.accessToken;
+          const me = await api("/api/toeic/me");
+          if (!me.canManage) {
+            token = null;
+            throw Error("Tài khoản này không có quyền quản lý TOEIC.");
+          }
+          $("password").value = "";
+          $("login").classList.add("hidden");
+          $("workspace").classList.remove("hidden");
+          $("logout").classList.remove("hidden");
+          await load();
+        });
+      };
+      $("logout").onclick = () => {
+        token = null;
+        location.reload();
+      };
+      async function load() {
+        const [exams, users, sessions] = await Promise.all([
+          api("/api/toeic/teacher/exams"),
+          api("/api/toeic/teacher/users"),
+          api("/api/toeic/teacher/sessions"),
+        ]);
+        $("exams").replaceChildren();
+        $("version").replaceChildren();
+        for (const e of exams) {
+          const card = text("div", "", "card");
+          card.append(
+            text("strong", e.title),
+            text(
+              "div",
+              `#${e.id} · ${e.status} · ${e.expectedQuestions} câu · ${e.durationMinutes} phút`,
+              "hint",
+            ),
+          );
+          if (e.status === "Draft") {
+            const b = text("button", "Xuất bản");
+            b.onclick = () =>
+              run(async () => {
+                b.disabled = true;
+                try {
+                  await api(
+                    `/api/toeic/teacher/exams/${e.id}/publish`,
+                    "POST",
+                    {},
+                  );
+                  await load();
+                  tell("Đã xuất bản. Nội dung đề được khóa.");
+                } finally {
+                  b.disabled = false;
+                }
+              });
+            card.append(b);
+          }
+          if (e.status === "Published") {
+            const o = text("option", `${e.title} (#${e.id})`);
+            o.value = e.id;
+            $("version").append(o);
+          }
+          $("exams").append(card);
+        }
+        if (!exams.length)
+          $("exams").append(text("p", "Chưa có đề nào.", "hint"));
+        const selected = new Set(
+          [...$("users").querySelectorAll("input:checked")].map((x) => x.value),
+        );
+        $("users").replaceChildren();
+        for (const u of users) {
+          const l = document.createElement("label"),
+            c = document.createElement("input");
+          c.type = "checkbox";
+          c.value = u.id;
+          c.checked = selected.has(String(u.id));
+          l.append(
+            c,
+            document.createTextNode(`${u.userName} — ${u.surname} ${u.name}`),
+          );
+          $("users").append(l);
+        }
+        $("sessions").replaceChildren();
+        for (const s of sessions) {
+          const c = text("div", "", "card");
+          c.append(
+            text("strong", s.name),
+            text("p", `${s.title} · ${s.shift} · ${s.status}`, "hint"),
+            text(
+              "p",
+              `${date(s.startsAt)} → ${date(s.endsAt)} | Hạn vào: ${date(s.entryClosesAt)}`,
+              "hint",
+            ),
+            text(
+              "span",
+              `${s.submittedAttempts}/${s.candidateCount} đã nộp`,
+              "pill",
+            ),
+            text("span", `Trung bình: ${s.averageCorrect ?? "—"}/100`, "pill"),
+          );
+          const b = text("button", "Xem thống kê", "secondary");
+          b.onclick = () => run(() => report(s.id));
+          c.append(b);
+          const release = text("button", "Công bố điểm ngay", "secondary");
+          release.onclick = () =>
+            run(async () => {
+              if (!confirm("Công bố điểm các bài đã nộp của ca này?")) return;
+              await api(
+                `/api/toeic/teacher/sessions/${s.id}/release`,
+                "POST",
+                {},
+              );
+              tell("Đã công bố điểm.");
+            });
+          c.append(release);
+          $("sessions").append(c);
+        }
+        if (!sessions.length)
+          $("sessions").append(text("p", "Chưa có ca thi.", "hint"));
+      }
+      $("refresh").onclick = () => run(load);
+      $("sample").onclick = () =>
+        run(async () => {
+          const r = await fetch("./sample-exam.json");
+          $("examJson").value = JSON.stringify(await r.json(), null, 2);
+          tell(
+            "Đây là dữ liệu tự tạo để kiểm thử, không phải nội dung/đáp án bài thi của giảng viên.",
+          );
+        });
+      $("previewButton").onclick = () =>
+        run(async () => {
+          const e = JSON.parse($("examJson").value);
+          $("preview").replaceChildren(text("h3", e.title));
+          for (const b of e.blocks) {
+            $("preview").append(text("h4", "Part " + b.part));
+            for (const p of b.passages || [])
+              $("preview").append(text("pre", p));
+            for (const q of b.questions) {
+              $("preview").append(text("p", `${q.number}. ${q.stem}`));
+              for (const [k, v] of Object.entries(q.choices))
+                $("preview").append(text("div", `${k}. ${v}`));
+              $("preview").append(
+                text("p", `Đáp án ${q.answer} · ${q.explanation}`, "hint"),
+              );
+            }
+          }
+          $("preview").parentElement.open = true;
+        });
+      $("createExam").onclick = () =>
+        run(async () => {
+          const b = $("createExam");
+          b.disabled = true;
+          try {
+            const result = await api(
+              "/api/toeic/teacher/exams",
+              "POST",
+              JSON.parse($("examJson").value),
+            );
+            await load();
+            tell(
+              "Đã lưu bản nháp #" +
+                result.id +
+                ". Kiểm tra trước khi xuất bản.",
+            );
+          } finally {
+            b.disabled = false;
+          }
+        });
+      $("sessionForm").onsubmit = (e) => {
+        e.preventDefault();
+        run(async () => {
+          const ids = [...$("users").querySelectorAll("input:checked")].map(
+            (x) => Number(x.value),
+          );
+          if (!ids.length) throw Error("Chọn ít nhất một tài khoản dự thi.");
+          const button = e.target.querySelector("button");
+          button.disabled = true;
+          try {
+            await api("/api/toeic/teacher/sessions", "POST", {
+              versionId: Number($("version").value),
+              name: $("sessionName").value,
+              shift: $("shift").value,
+              startsAt: new Date($("starts").value).toISOString(),
+              entryClosesAt: new Date($("entry").value).toISOString(),
+              endsAt: new Date($("ends").value).toISOString(),
+              scoreReleaseAt: $("release").value
+                ? new Date($("release").value).toISOString()
+                : null,
+              candidateUserIds: ids,
+            });
+            await load();
+            tell("Đã tạo lịch. Sinh viên tải lại danh sách ca thi trong app.");
+          } finally {
+            button.disabled = false;
+          }
+        });
+      };
+      async function report(id) {
+        const r = await api(`/api/toeic/teacher/sessions/${id}/statistics`);
+        const root = $("report");
+        root.replaceChildren(
+          text(
+            "p",
+            `Đã nộp: ${r.summary.submittedAttempts} · Trung bình: ${r.summary.averageCorrect ?? "—"}/100`,
+          ),
+        );
+        const t = document.createElement("table");
+        const head = document.createElement("tr");
+        for (const h of ["Sinh viên", "Trạng thái", "Đúng", "Sai", "Bỏ trống"])
+          head.append(text("th", h));
+        t.append(head);
+        for (const a of r.attempts) {
+          const tr = document.createElement("tr");
+          for (const v of [
+            a.fullName,
+            a.status,
+            a.correctCount ?? "—",
+            a.wrongCount ?? "—",
+            a.skippedCount ?? "—",
+          ])
+            tr.append(text("td", v));
+          t.append(tr);
+        }
+        const scroll = text("div", "", "scroll");
+        scroll.append(t);
+        root.append(scroll, text("h3", "Top 10 câu chọn sai"));
+        for (const q of r.topWrong)
+          root.append(
+            text(
+              "p",
+              `Câu ${q.originalNumber}: ${q.wrongCount} chọn sai / ${q.seenCount} bài; ${q.skippedCount} bỏ trống`,
+            ),
+          );
+        if (!r.topWrong.length)
+          root.append(text("p", "Chưa có câu bị chọn sai."));
+        $("reportSection").classList.remove("hidden");
+        $("reportSection").scrollIntoView({ behavior: "smooth" });
+      }
+      const now = new Date();
+      $("starts").value = local(new Date(now.getTime() - 60000));
+      $("entry").value = local(new Date(now.getTime() + 30 * 60000));
+      $("ends").value = local(new Date(now.getTime() + 90 * 60000));
+      $("release").value = local(now);
+    </script>
+    <script src="./word-import.js"></script>
+  </body>
+</html>

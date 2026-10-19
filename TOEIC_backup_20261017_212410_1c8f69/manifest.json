@@ -1,0 +1,117 @@
+[
+    {
+        "path":  "Backend/src/ToeicExam.Core/Authorization/ToeicExamAuthorizationProvider.cs",
+        "existed":  true,
+        "installedHash":  "635AB5A753DE733D444694B6976670392A70B74824F2F3CFCD8AB21E7C76C3BB"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.EntityFrameworkCore/EntityFrameworkCore/Seed/Host/HostRoleAndUserCreator.cs",
+        "existed":  true,
+        "installedHash":  "C6BB48827A244FE7FF8F954439CA749CBC750528A9E5A15C49B80471C81EEFB5"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Core/Controllers/TokenAuthController.cs",
+        "existed":  true,
+        "installedHash":  "F96624FDE8E3DF87A4B5CE6F1E978C4D76DD544D422231EED509CE9FC65A2768"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/Controllers/ToeicApiController.cs",
+        "existed":  false,
+        "installedHash":  "BB3152D65CA2A5C921813F9190378B39F7331A2F945FBDCD89C2C19079D32D97"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/Properties/launchSettings.json",
+        "existed":  true,
+        "installedHash":  "21B62C402234D63E5282FBB4FB7C3020807863691FF949EFFB6D41397FD084F3"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/Startup/Startup.cs",
+        "existed":  true,
+        "installedHash":  "1F1F374F8DE708E6469200CFDA981C710093DB140B674ECF35178FFE4D8C8DB3"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/Toeic/ToeicModels.cs",
+        "existed":  false,
+        "installedHash":  "92DD6AADC4FC8C1CE0E9EFFE35805BEA37DF7D2A8236273F0D903017B705F34A"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/Toeic/ToeicStore.cs",
+        "existed":  false,
+        "installedHash":  "354955225B74F89466C0A33E38D7442A4AC333DBBBF1F3C023EBC50A8279D0B6"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/Toeic/ToeicTimeoutWorker.cs",
+        "existed":  false,
+        "installedHash":  "0B48D9519962B2B2F32E483E5F4A8717F121B2790DF14367857BB90C10783172"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/wwwroot/toeic/index.html",
+        "existed":  false,
+        "installedHash":  "2BFEA52AE4638348396C6040C75D5829C2E648895493465F54FCFB856E3CBE53"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/wwwroot/toeic/sample-exam.json",
+        "existed":  false,
+        "installedHash":  "8BF94F5136872CEC0E5E8E6460D725220A39A165F203969E647823F986B0D6E8"
+    },
+    {
+        "path":  "Backend/test/ToeicExam.Web.Tests/ToeicValidationTests.cs",
+        "existed":  false,
+        "installedHash":  "3E53C8C5083CD74838D5E779DD9003F3BC973C89153CF94EBC41B10E5595EBBD"
+    },
+    {
+        "path":  "Database/03_SmokeTest_Rollback.sql",
+        "existed":  false,
+        "installedHash":  "A8707618195068A649D61689EA55F22C048A6D82D0FFFF62BC702053858B3AC8"
+    },
+    {
+        "path":  "Database/TOEIC_ALL_IN_ONE.sql",
+        "existed":  false,
+        "installedHash":  "9F8094A7CD07F1900055A28125E27670B17B1F7A5957DB666C36E565D0998D16"
+    },
+    {
+        "path":  "android/app/src/debug/AndroidManifest.xml",
+        "existed":  true,
+        "installedHash":  "4E4A0E0726BAF45D2D878EA5D0E0666E08EA6E9DBDC33ECD2A74A3525CF5BA51"
+    },
+    {
+        "path":  "android/app/src/main/AndroidManifest.xml",
+        "existed":  true,
+        "installedHash":  "7DD8C9B48FF885461455F8109788339604514BE3CDB1669608788ED69614DB05"
+    },
+    {
+        "path":  "docs/HUONG_DAN_CHAY_TIEP.md",
+        "existed":  false,
+        "installedHash":  "80CF7BE9284A164408DAFAA565C6E45312AD480162568F666ED332075AF8274D"
+    },
+    {
+        "path":  "lib/main.dart",
+        "existed":  true,
+        "installedHash":  "B3F38C88AC2D5B4D6FC8C281980B3ABCAEC5F8B651A63EC3E2EDE6C832AF9E66"
+    },
+    {
+        "path":  "lib/toeic/student_app.dart",
+        "existed":  false,
+        "installedHash":  "257285C1E6C5D1BE55B8D699B1B443234DF851C360493EC3B8D958A64F72A5A5"
+    },
+    {
+        "path":  "lib/toeic/toeic_api.dart",
+        "existed":  false,
+        "installedHash":  "7D3DEE6B400E9446638D5B59A04A80A197D8F4AED76BD7A264C74BD75A3E6AF3"
+    },
+    {
+        "path":  "test/toeic_api_test.dart",
+        "existed":  false,
+        "installedHash":  "F43BA6530EA9E89A144E6F5BCE0BAA5120BDF79292F07A0C8BA417ACCD8F5A6D"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Migrator/appsettings.json",
+        "existed":  true,
+        "installedHash":  "9CB8EE20D1BAFCC96686F2B506D6FFCBCE34DEE882F9401FC37824E9DA26015A"
+    },
+    {
+        "path":  "Backend/src/ToeicExam.Web.Mvc/appsettings.json",
+        "existed":  true,
+        "installedHash":  "10EBFBC72D510F5FE2B58AFD97532941E3B8CAABF303890A5FB7CD9EF59A5974"
+    }
+]
